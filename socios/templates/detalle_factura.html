@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% include 'navbar.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles</title>
+ 
+</head>
+<body>
+    <h1>detalles de factura </h1>
+    <div>
+        <p> nombre: {{ socio}}</p>
+        <p> disciplina: {{disciplina.nombre}}</p>
+        <p>monto a pagar: {{monto}}</p>
+    </div>
+    <div>
+        <button>
+            <a href="{% url 'pagar_vencidos' factura.pk %}">pagar</a>
+        </button>
+    </div>
+   
+</body>
+</html>

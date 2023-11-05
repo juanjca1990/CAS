@@ -1,0 +1,17 @@
+
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/tablas.css' %}">
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/ABMsocios.css' %}">
+
+
+<section>
+    <nav>
+        <a href="{% url 'lista_socios' %}">SOCIOS</a>
+        <a href="{% url 'lista_disciplinas' %}">DISCIPLINAS</a>
+        <a href="{% url 'listado_facturas' %}">FACTURAS</a>
+      </nav>
+
+</section>

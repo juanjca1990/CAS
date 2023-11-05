@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% include 'navbar.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+  <div class="div-alta-socios">
+    <h2>Formulario de Socio</h2>
+    <form method="post" action="{% if form.instance.id %}{% url 'modificar_socio' form.instance.id %}{% else %}{% url 'alta_socios' %}{% endif %}">
+      <div class="div-formulario-socios">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d">
+          {{form.disciplinas}}
+
+        </div>
+      </div>
+      <div class="div-formulario-socios-botones">
+        <input class="div-formulario-socios__input" type="submit" value="Enviar">
+        <button class="div-formulario-socios__boton"><a href="{% url 'lista_socios' %}">Volver</a></button>
+      </div>
+    </form>
+  </div>
+  </body>
+  </html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% include 'navbar.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>listado_facturas</title>
+ 
+</head>
+<body>
+    <h1>Listado de facturas totales</h1>
+    <input type="text" id="myInput" onkeyup="filterTable()" placeholder="Buscar en la tabla...">
+    <table class="tabla-lista-socios">
+        <thead>
+            <tr>
+                <th>Dni</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Fecha pago</th>
+                <th>Monto total</th>
+                <th>Disciplina pagada</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for factura in facturas %}
+            <tr>
+                <td>{{factura.socio.dni}}</td>
+                <td>{{factura.socio.nombre}}</td>
+                <td>{{factura.socio.apellido}}</td>
+                <td>{{factura.fecha_pago}}</td>
+                <td>{{factura.monto_total}}</td>
+                <td>{{factura.disciplina.nombre}}</td>
+            {% endfor %}
+           
+        </tbody>
+    </table>
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.querySelector(".tabla-lista-socios");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0]; // Cambia el índice para ajustar según las columnas de tu tabla
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

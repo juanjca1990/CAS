@@ -1,0 +1,29 @@
+
+
+.div-alta-socios{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+}
+
+
+.form-control.nombre{
+    font-size: 20px;
+    background-color: aqua;
+}
+
+label{
+    font-size: 20px;
+}
+
+.errorList{
+    visibility: hidden;
+}
+.d{
+    display:flex;
+    flex-direction: column;
+    height: 10px;
+    width: 10px;
+    justify-content: center;
+}

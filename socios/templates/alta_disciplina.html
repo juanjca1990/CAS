@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% include 'navbar.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alta disciplina</title>
+</head>
+<body>
+
+    <h2>Formulario de Disciplina</h2>
+  
+    <form method="post" action="{% if form.instance.id %}{% url 'modificar_disciplina' form.instance.id %}{% else %}{% url 'alta_disciplina' %}{% endif %}">
+      
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <input type="submit" value="Enviar">
+      <button><a href="{% url 'lista_disciplinas' %}">Volver</a></button>
+    </form>
+  
+  </body>
+</html>

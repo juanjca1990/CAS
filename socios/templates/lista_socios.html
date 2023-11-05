@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% include 'navbar.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socios</title>
+ 
+</head>
+<body>
+    <div class="titulo">
+        <h1>Listado de Socios</h1>
+    </div>
+    <div class="botones-cabecera">
+        <input type="text" id="myInput" onkeyup="filterTable()" placeholder="Buscar en la tabla...">
+        <button type="button" class="boton-agregar">
+            <a href="{% url 'alta_socios' %}">Agregar Socio</a>
+        </button>
+    </div>
+    <div class="contenedor-tabla">
+        <table class="tabla-lista-socios">
+            <thead>
+                <tr>
+                    <th>Dni</th>
+                    <th>nroSocio</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Tipo Socio</th>
+                    <th>Disciplinas</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for socio in socios %}
+                <tr>
+                    <td>{{socio.dni}}</td>
+                    <td>{{socio.nroSocio}}</td>
+                    <td>{{socio.nombre}}</td>
+                    <td>{{socio.apellido}}</td>
+                    <td>
+                        {% if socio.tipo_socio == 0 %}
+                            {{ 'afiliado' }}
+                        {% else %}
+                            {{ 'adherente' }}
+                        {% endif %}
+                    </td>
+                    <td> {% for socioDis in socio.disciplinas.all %}  
+                        <p>{{socioDis.nombre}}</p>     
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <button>
+                            <a href="{% url 'eliminar_socio' socio.pk %}">eliminar</a>
+                        </button>
+                    </td>
+                    <td>
+                        <button>
+                            <a href="{% url 'modificar_socio' socio.pk %}">modificar</a>
+                        </button>
+                    </td>
+                    <td>
+                        <button>
+                            <a href="{% url 'facturacion' socio.pk %}">pagar</a>
+                        </button>
+                    </td>
+                    <td>
+                        <button>
+                            <a href="{% url 'listado_facturas_socio' socio.pk %}">listado facturas</a>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.querySelector(".tabla-lista-socios");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0]; // Cambia el índice para ajustar según las columnas de tu tabla
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

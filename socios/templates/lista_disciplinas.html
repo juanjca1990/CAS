@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% include 'navbar.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplinas</title>
+ 
+</head>
+<body>
+    <h1>Listado de Disciplinas</h1>
+    <button type="button" class="boton-agregar">
+        <a href="{% url 'alta_disciplina' %}">Agregar Disciplina</a>
+    </button>
+
+    <table class="tabla-lista">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio Afiliado</th>
+                <th>Precio Adherente</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for disciplina in disciplinas %}
+            <tr>
+                <td>{{disciplina.nombre}}</td>
+                <td>{{disciplina.monto_afiliado}}</td>
+                <td>{{disciplina.monto_adherente}}</td>
+                <td>
+                    <button>
+                        <a href="{% url 'eliminar_disciplina' disciplina.id %}">eliminar</a>
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        <a href="{% url 'modificar_disciplina' disciplina.id %}">modificar</a>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+           
+        </tbody>
+    </table>
+
+</body>
+</html>

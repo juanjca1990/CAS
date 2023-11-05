@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% include 'navbar.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturacion</title>
+ 
+</head>
+<body>
+  
+    <h1>Facturacion de Socio {{socio.apellido}} , {{socio.nombre}}</h1>
+    
+    <h2>Inscripciones sin pagar</h2>
+
+    <table class="tabla-lista-socios">
+        <thead>
+            <tr>
+                <th>Dni</th>
+                <th>nroSocio</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Tipo Socio</th>
+                <th>Disciplinas</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for disciplinas in disciplinas_sin_pagar %}
+                {% if not socioDis.pagado %}
+                    <tr>
+                        <td>{{socio.dni}}</td>
+                        <td>{{socio.nroSocio}}</td>
+                        <td>{{socio.nombre}}</td>
+                        <td>{{socio.apellido}}</td>
+                        <td>
+                            {% if socio.tipo_socio == 0 %}
+                                {{ 'afiliado' }}
+                            {% else %}
+                                {{ 'adherente' }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <p>{{disciplinas.disciplina.nombre}}</p>   
+                        </td>
+                        <td>
+                            <button>
+                                <a href="{% url 'pagar' socio.pk disciplinas.disciplina.id %}">pagar</a>
+                            </button>
+                        </td>
+                    {% endif %}
+            {% endfor %}
+           
+        </tbody>
+    </table>
+
+    <h2>Inscripciones pagadas</h2>
+
+    <table class="tabla-lista-socios">
+        <thead>
+            <tr>
+                <th>Dni</th>
+                <th>nroSocio</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Tipo Socio</th>
+                <th>Disciplinas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for disciplinas in disciplinas_pagadas %}
+                {% if not socioDis.pagado %}
+                    <tr>
+                        <td>{{socio.dni}}</td>
+                        <td>{{socio.nroSocio}}</td>
+                        <td>{{socio.nombre}}</td>
+                        <td>{{socio.apellido}}</td>
+                        <td>
+                            {% if socio.tipo_socio == 0 %}
+                                {{ 'afiliado' }}
+                            {% else %}
+                                {{ 'adherente' }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <p>{{disciplinas.disciplina.nombre}}</p>   
+                        </td>
+                    {% endif %}
+            {% endfor %}
+           
+        </tbody>
+    </table>
+
+    <h2>Inscripciones vencidas</h2>
+    <input type="text" id="myInput" onkeyup="filterTable()" placeholder="Buscar en la tabla...">
+    <table class="tabla-lista-socios">
+        <thead>
+            <tr>
+                <th>socio</th>
+                <th>disciplina</th>
+                <th>periodo de fecha</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for factura in facturas_vencidas %}
+                
+                    <tr>
+                        <td>{{factura.socio.nombre}}</td>
+                        <td>{{factura.disciplina.nombre}}</td>
+                        <td>{{factura.fecha_vencido}}</td>
+
+                        <td>
+                            <button>
+                                <a href="{% url 'pagar_vencidos' factura.id %}">pagar</a>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+           
+        </tbody>
+    </table>
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.querySelector(".tabla-lista-socios");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0]; // Cambia el índice para ajustar según las columnas de tu tabla
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    
+        
+</body>
+</html>

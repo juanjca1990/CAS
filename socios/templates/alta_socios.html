@@ -10,7 +10,7 @@
 </head>
 <body>
   <div class="div-alta-socios">
-    <h2>Formulario de Socio</h2>
+    <h2>Formulario de Socios</h2>
     <form method="post" action="{% if form.instance.id %}{% url 'modificar_socio' form.instance.id %}{% else %}{% url 'alta_socios' %}{% endif %}">
       <div class="div-formulario-socios">
         {% csrf_token %}

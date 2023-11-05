@@ -45,8 +45,8 @@ class Socios(models.Model):
     socio_afiliado = 0
     socio_adherente = 1
     tipo = [
-        (socio_afiliado, "afiliado"),
-        (socio_adherente, "adherente")
+        (socio_afiliado, "Afiliado"),
+        (socio_adherente, "Adherente")
     ]
 
     nroSocio = models.IntegerField(unique=True)

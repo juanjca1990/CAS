@@ -14,16 +14,41 @@
     <form method="post" action="{% if form.instance.id %}{% url 'modificar_socio' form.instance.id %}{% else %}{% url 'alta_socios' %}{% endif %}">
       <div class="div-formulario-socios">
         {% csrf_token %}
-        {{ form.as_p }}
-        <div class="d">
-          {{form.disciplinas}}
-
+        <div class="form-group">
+          <label for="{{ form.nombre.id_for_label }}" class="formulario-label">Nombre:</label>
+          <div class="formulario-input">{{ form.nombre }}</div>
         </div>
-      </div>
-      <div class="div-formulario-socios-botones">
-        <input class="div-formulario-socios__input" type="submit" value="Enviar">
-        <button class="div-formulario-socios__boton"><a href="{% url 'lista_socios' %}">Volver</a></button>
-      </div>
+        <div class="form-group">
+          <label for="{{ form.apellido.id_for_label }}" class="formulario-label">Apellido:</label>
+          <div class="formulario-input">{{ form.apellido }}</div>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.dni.id_for_label }}" class="formulario-label">Dni:</label>
+          <div class="formulario-input">{{ form.dni }}</div>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.nroSocio.id_for_label }}" class="formulario-label">Nro Socio:</label>
+          <div class="formulario-input">{{ form.nroSocio }}</div>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.tipo_socio.id_for_label }}" class="formulario-label">Tipo Socio:</label>
+          <div class="formulario-input">{{ form.tipo_socio }}</div>
+        </div>
+
+        <div class="form-group">
+          <div class="check-disciplinas">
+            <label for="{{ form.disciplinas.id_for_label }}">Disciplinas:</label>
+            {% for checkbox in form.disciplinas %}
+              <div class="columna-de-dos">
+                <label>{{ checkbox.tag }} {{ checkbox.choice_label }}</label>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="botones-form">
+          <button class="boton-form-enviar boton-form" type="submit" value="Enviar">Enviar</button>
+          <button class="boton-form-volver boton-form"><a href="{% url 'lista_socios' %}">Volver</a></button>
+        </div>
     </form>
   </div>
   </body>

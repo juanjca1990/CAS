@@ -3,6 +3,9 @@
 <head>
     {% load static %}
     {% include 'navbar.html' %}
+    {% block extraCSS%}
+    <link rel="stylesheet" href="{% static 'css/ABMsocios.css' %}">
+    {% endblock extraCSS%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -12,7 +15,7 @@
   <div class="div-alta-socios">
     <h2>Formulario de Socios</h2>
     <form method="post" action="{% if form.instance.id %}{% url 'modificar_socio' form.instance.id %}{% else %}{% url 'alta_socios' %}{% endif %}">
-      <div class="div-formulario-socios">
+      <div class="div-formulario">
         {% csrf_token %}
         <div class="form-group">
           <label for="{{ form.nombre.id_for_label }}" class="formulario-label">Nombre:</label>
@@ -22,10 +25,16 @@
           <label for="{{ form.apellido.id_for_label }}" class="formulario-label">Apellido:</label>
           <div class="formulario-input">{{ form.apellido }}</div>
         </div>
+        {% for error in form.dni.errors %}
+        <span class="error-message">{{ error }}</span>
+      {% endfor %}
         <div class="form-group">
           <label for="{{ form.dni.id_for_label }}" class="formulario-label">Dni:</label>
           <div class="formulario-input">{{ form.dni }}</div>
         </div>
+        {% for error in form.nroSocio.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
         <div class="form-group">
           <label for="{{ form.nroSocio.id_for_label }}" class="formulario-label">Nro Socio:</label>
           <div class="formulario-input">{{ form.nroSocio }}</div>

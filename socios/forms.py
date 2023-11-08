@@ -36,7 +36,7 @@ class DisciplinaForm(ModelForm):
         fields = '__all__'
     def __init__(self, *args, **kwargs):
         super(DisciplinaForm, self).__init__(*args, **kwargs)
-        self.fields['nombre'].widget.attrs.update({'class': 'form-control'})
-        self.fields['monto_afiliado'].widget.attrs.update({'class': 'form-control' ,'min':'0'})
-        self.fields['monto_adherente'].widget.attrs.update({'class': 'form-control' ,'min':'0'})
+        self.fields['nombre'].widget.attrs.update({'class': 'form-control input-text'})
+        self.fields['monto_afiliado'].widget.attrs.update({'class': 'form-control input-monto' ,'min':'0'})
+        self.fields['monto_adherente'].widget.attrs.update({'class': 'form-control input-monto' ,'min':'0'})
         

@@ -1,6 +1,6 @@
 
 
-.div-formulario{
+.div-formulario-disciplina{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,19 +30,18 @@ label{
     width: 200px; /* Ajusta según sea necesario */
   }
 
-.tipo-socio{
-    font-size: 20px; /* Tamaño de fuente */
-    padding: 10px;
-}
-
-.nro-socio{
-    font-size: 20px; /* Tamaño de fuente */
-    padding: 10px;
-}
 .input-text{
     font-size: 20px; /* Tamaño de fuente */
     padding: 10px;
 }
+
+.input-monto{
+    font-size: 20px; /* Tamaño de fuente */
+    padding: 10px;
+    width: 100px;
+    height: 20px;
+}
+
 .botones-form{
     display: flex;
     flex-direction: row;

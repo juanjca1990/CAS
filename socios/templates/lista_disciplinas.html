@@ -14,7 +14,7 @@
         <a href="{% url 'alta_disciplina' %}">Agregar Disciplina</a>
     </button>
 
-    <table class="tabla-lista">
+    <table class="tabla-lista-disciplinas">
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -31,12 +31,12 @@
                 <td>{{disciplina.monto_adherente}}</td>
                 <td>
                     <button>
-                        <a href="{% url 'eliminar_disciplina' disciplina.id %}">eliminar</a>
+                        <a href="{% url 'modificar_disciplina' disciplina.id %}">modificar</a>
                     </button>
                 </td>
                 <td>
                     <button>
-                        <a href="{% url 'modificar_disciplina' disciplina.id %}">modificar</a>
+                        <a href="{% url 'eliminar_disciplina' disciplina.id %}">eliminar</a>
                     </button>
                 </td>
             </tr>

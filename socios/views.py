@@ -12,20 +12,33 @@ def lista_socios(request):
     return render(request , "lista_socios.html", {'socios': socios})
 
 def alta_socios(request):
-    form = SociosForm(request.POST)
     if request.method == 'POST':
+        form = SociosForm(request.POST)
         if form.is_valid():
-            nuevo_socio = form.save(commit=False)
-            disciplinas_seleccionadas = form.cleaned_data['disciplinas']
-            nuevo_socio.save()
-            for disciplina in disciplinas_seleccionadas.all():
-                fecha_reinicio = datetime.now() + timedelta(days=30)
-                Inscripcion.objects.create(socio=nuevo_socio, disciplina=disciplina, fecha_reinicio=fecha_reinicio)
-            
-            form.save_m2m()
-            return redirect('lista_socios')
-        else:
-            form = SociosForm()
+            print("entreee")
+            nuevo_dni = form.cleaned_data['dni']
+            nuevo_nro_socio = form.cleaned_data['nroSocio']
+            if (Socios.objects.filter(dni = nuevo_dni).exists()):
+                print("numero dni")
+                form.add_error('dni', 'el dni ya se encuentra registrado')
+                return render(request, 'alta_socios.html', {'form': form})
+            else:
+                if (Socios.objects.filter(nroSocio = nuevo_nro_socio).exists()):
+                    print("numero socio")
+                    form.add_error('nroSocio', 'el numero de socio ya se encuentra registrado')
+                    return render(request, 'alta_socios.html', {'form': form})
+                else:
+                    nuevo_socio = form.save(commit=False)
+                    disciplinas_seleccionadas = form.cleaned_data['disciplinas']
+                    nuevo_socio.save()
+                    for disciplina in disciplinas_seleccionadas.all():
+                        fecha_reinicio = datetime.now() + timedelta(days=30)
+                        Inscripcion.objects.create(socio=nuevo_socio, disciplina=disciplina, fecha_reinicio=fecha_reinicio)
+                    
+                    form.save_m2m()
+                    return redirect('lista_socios')      
+    else:
+        form = SociosForm()
 
     return render(request, 'alta_socios.html', {'form': form})
 

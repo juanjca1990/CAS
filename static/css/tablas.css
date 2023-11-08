@@ -4,9 +4,11 @@ body {
     padding: 0;
   }
 
+.contenedor{
+  margin-left: 50px;
+}
 
-/* /////////////////// INICIO lista usuarios */
-.tabla-lista-socios{
+.tabla-lista-socios , .tabla-lista-disciplinas{
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;

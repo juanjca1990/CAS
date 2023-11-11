@@ -1,9 +1,10 @@
 
 from datetime import datetime, timedelta
-from django.shortcuts import get_object_or_404, redirect, render
 
 from socios.forms import DisciplinaForm, SociosForm
+from socios.helpers import obtener_nombre_del_mes
 from socios.models import Factura, Inscripcion, Socios , Disciplinas
+from django.shortcuts import get_object_or_404, redirect, render
 
 fecha_actual = datetime.now().month
 
@@ -127,6 +128,8 @@ def modificar_disciplina(request , id_disciplina):
 
 def facturacion(request , id_socio):
     reiniciar_pagos_para_nuevo_mes()
+    mes_actual = datetime.now().month
+    nombre_mes = obtener_nombre_del_mes(mes_actual)
     socio = Socios.objects.get(id = id_socio)
     disciplinas_inscripcion_pendientes = obtener_disciplinas_pendientes(id_socio)
     disciplinas_inscripcion_pagadas = obtener_disciplinas_pagadas(id_socio)
@@ -136,6 +139,7 @@ def facturacion(request , id_socio):
                 "disciplinas_sin_pagar":disciplinas_inscripcion_pendientes,
                 "disciplinas_pagadas": disciplinas_inscripcion_pagadas,
                 "facturas_vencidas": facturas_vencidas,
+                "mes":nombre_mes,
                 })
 
 def pagar(request , socio_id , disciplina_id):
@@ -190,8 +194,6 @@ def reiniciar_pagos_para_nuevo_mes():
                     inscripcion.fecha_reinicio = reinicio
                     inscripcion.save()
                     # Inscripcion.objects.filter(pagado=True, fecha_reinicio__month=mes_actual).update(pagado=False, fecha_pago=None)
-            else:
-                break
 
 def marcar_facturas_vencidas(socio , disciplina, adherente,afiliado,reinicio):
     persona = Socios.objects.get(id = socio)

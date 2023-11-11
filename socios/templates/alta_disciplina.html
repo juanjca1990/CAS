@@ -13,7 +13,7 @@
 <body>
   <div class="div-alta-disciplinas">
     <h2>Formulario de Disciplina</h2>
-    <form method="post" action="{% if form.instance.id %}{% url 'modificar_socio' form.instance.id %}{% else %}{% url 'alta_socios' %}{% endif %}">
+    <form method="post" action="{% if form.instance.id %}{% url 'modificar_disciplina' form.instance.id %}{% else %}{% url 'alta_disciplina' %}{% endif %}">
       <div class="div-formulario-disciplina">
         {% csrf_token %}
         <div class="form-group">

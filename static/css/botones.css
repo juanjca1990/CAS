@@ -9,9 +9,9 @@
   .botones-cabecera{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    
+    justify-content: space-evenly;
   }
+
 
   .botones-cabecera__agregar{
     margin-right: 350px;
@@ -20,6 +20,7 @@
   .botones-listado{
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
   }
 
   h1{

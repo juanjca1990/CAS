@@ -12,7 +12,7 @@
   
     <h1>Facturacion de Socio {{socio.apellido}} , {{socio.nombre}}</h1>
     
-    <h2>Inscripciones sin pagar</h2>
+    <h2>Inscripciones sin pagar periodo : {{mes}}</h2>
 
     <table class="tabla-lista-socios">
         <thead>
@@ -55,7 +55,7 @@
         </tbody>
     </table>
 
-    <h2>Inscripciones pagadas</h2>
+    <h2>Inscripciones pagadas periodo : {{mes}}</h2>
     {% if disciplinas_pagadas %}
 
         <table class="tabla-lista-socios">

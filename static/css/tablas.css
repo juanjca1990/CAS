@@ -9,10 +9,12 @@ body {
 }
 
 .tabla-lista-socios , .tabla-lista-disciplinas{
-    width: 100%;
+    width: 80%; /* Puedes ajustar el porcentaje según tu preferencia */
+    margin: 20px auto; /* Centra la tabla en la pantalla */
     border-collapse: collapse;
     margin-top: 20px;
 }
+
 
 tr:nth-child(even) {
   background-color: #b2dde9;
@@ -42,6 +44,6 @@ li{
  a {
   text-decoration: none;
 }
-/* /////////////////// FIN lista usuarios */
+/* /////////////////// FIN lista usuarios ////////////////////*/
 
 

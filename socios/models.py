@@ -72,3 +72,25 @@ class Factura(models.Model):
         self.pagado = True
         self.fecha_pago = datetime.now().date()
         self.save()
+    
+    def obtener_nombre_del_mes(self):
+        numero_mes = self.fecha_vencido.month
+        print(numero_mes)
+        try:
+            meses = {
+            1: "enero",
+            2: "febrero",
+            3: "marzo",
+            4: "abril",
+            5: "mayo",
+            6: "junio",
+            7: "julio",
+            8: "agosto",
+            9: "septiembre",
+            10: "octubre",
+            11: "noviembre",
+            12: "diciembre"
+        }
+            return str(self.fecha_vencido.day) +"-"+meses[numero_mes] +"-"+ str(self.fecha_vencido.year)
+        except IndexError:
+            return "Mes no válido"

@@ -33,7 +33,11 @@ def alta_socios(request):
                     disciplinas_seleccionadas = form.cleaned_data['disciplinas']
                     nuevo_socio.save()
                     for disciplina in disciplinas_seleccionadas.all():
-                        fecha_reinicio = datetime.now() + timedelta(days=30)
+                        if datetime.now().day >= 28:
+                            fecha_reinicio = datetime.now() + timedelta(days=28)
+                        else:    
+                            fecha_reinicio = datetime.now() + timedelta(days=30)
+                        
                         Inscripcion.objects.create(socio=nuevo_socio, disciplina=disciplina, fecha_reinicio=fecha_reinicio)
                     
                     form.save_m2m()
@@ -175,25 +179,33 @@ def pagar_vencidos(request , factura_id):
 #reinicia las disciplinas para poder pagarlas en el nuevo mes
 @staticmethod
 def reiniciar_pagos_para_nuevo_mes():
+    dia_actual = datetime.now().day
     mes_actual = datetime.now().month
     inscripciones = Inscripcion.objects.all()
     if inscripciones.exists():
+        #por cada inscripcion verifico el mes de reinicio con el mes actual
         for inscripcion in inscripciones:
             if inscripcion.fecha_reinicio.month == mes_actual:
-                hoy = datetime.now()
-                reinicio = datetime(hoy.year, hoy.month, hoy.day) + timedelta(days=30)
-                if inscripcion.pagado == False:
-                    marcar_facturas_vencidas(inscripcion.socio.pk , inscripcion.disciplina,
-                                             inscripcion.disciplina.monto_adherente ,inscripcion.disciplina.monto_afiliado ,
-                                             inscripcion.fecha_reinicio)
-                    inscripcion.fecha_reinicio = reinicio
-                    inscripcion.save()
-                else:
-                    inscripcion.pagado=False
-                    inscripcion.fecha_pago=None
-                    inscripcion.fecha_reinicio = reinicio
-                    inscripcion.save()
-                    # Inscripcion.objects.filter(pagado=True, fecha_reinicio__month=mes_actual).update(pagado=False, fecha_pago=None)
+                #verificacion de dia por si hubo un dia feriado
+                if dia_actual >= inscripcion.fecha_reinicio.day:
+                    hoy = datetime.now()
+                    if hoy.day >=28:
+                        reinicio = datetime(hoy.year, hoy.month, hoy.day) + timedelta(days=28)
+                    else:
+                        reinicio = datetime(hoy.year, hoy.month, hoy.day) + timedelta(days=30)
+                        
+                    if inscripcion.pagado == False:
+                        marcar_facturas_vencidas(inscripcion.socio.pk , inscripcion.disciplina,
+                                                inscripcion.disciplina.monto_adherente ,inscripcion.disciplina.monto_afiliado ,
+                                                inscripcion.fecha_reinicio)
+                        inscripcion.fecha_reinicio = reinicio
+                        inscripcion.save()
+                    else:
+                        inscripcion.pagado=False
+                        inscripcion.fecha_pago=None
+                        inscripcion.fecha_reinicio = reinicio
+                        inscripcion.save()
+                        # Inscripcion.objects.filter(pagado=True, fecha_reinicio__month=mes_actual).update(pagado=False, fecha_pago=None)
 
 def marcar_facturas_vencidas(socio , disciplina, adherente,afiliado,reinicio):
     persona = Socios.objects.get(id = socio)

@@ -37,7 +37,12 @@ class Inscripcion(models.Model):
     # Obtener el primer día del próximo mes
         primer_dia_siguiente_mes = datetime(self.fecha_pago.year, self.fecha_pago.month, 1) + timedelta(days=31) 
     # Establecer el día en 5
-        self.fecha_reinicio = datetime(primer_dia_siguiente_mes.year, primer_dia_siguiente_mes.month, 5).date()
+        dia = self.fecha_reinicio.day
+        if dia >=28:
+            self.fecha_reinicio = datetime(primer_dia_siguiente_mes.year, primer_dia_siguiente_mes.month, 28).date()
+        else:
+            self.fecha_reinicio = datetime(primer_dia_siguiente_mes.year, primer_dia_siguiente_mes.month, dia).date() + timedelta(days=30)
+            
         self.save()
 
 

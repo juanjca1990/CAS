@@ -190,7 +190,7 @@ def reiniciar_pagos_para_nuevo_mes():
                 if dia_actual >= inscripcion.fecha_reinicio.day:
                     hoy = datetime.now()
                     if hoy.day >=28:
-                        reinicio = datetime(hoy.year, hoy.month, hoy.day) + timedelta(days=28)
+                        reinicio = datetime(hoy.year, hoy.month, hoy.day) + timedelta(days=28 )
                     else:
                         reinicio = datetime(hoy.year, hoy.month, hoy.day) + timedelta(days=30)
                         

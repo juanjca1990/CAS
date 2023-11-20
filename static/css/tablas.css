@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+.contenedor{
+  margin-left: 50px;
+}
+
+.tabla-lista-socios , .tabla-lista-disciplinas{
+    width: 80%; /* Puedes ajustar el porcentaje según tu preferencia */
+    margin: 20px auto; /* Centra la tabla en la pantalla */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+
+tr:nth-child(even) {
+  background-color: #b2dde9;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+input[type="text"] {
+    padding: 5px;
+    margin-top: 10px;
+}
+
+li{
+    text-decoration: none;
+}
+
+.boton-agregar{
+  background-color: rgb(68, 167, 59);
+  width: 10rem;
+  height: 2rem;
+}
+
+ a {
+  text-decoration: none;
+}
+/* /////////////////// FIN lista usuarios ////////////////////*/
+
+

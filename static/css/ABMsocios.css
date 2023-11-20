@@ -120,3 +120,21 @@ a{
     box-shadow: none;
     transform: scale(0.98);
   }
+
+
+     /* /////////////////  boton-alta-disciplina en html alta socio///////////*/
+
+
+.contenedor-boton{
+  display: flex;
+  justify-content: center;
+}
+
+.boton-alta-disciplina{
+  height: 70px;
+  width: 200px;
+  color: #1db6b6;
+  font-size: 25px;
+  cursor: pointer;
+
+}

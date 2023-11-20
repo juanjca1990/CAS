@@ -1,5 +1,7 @@
 
 from datetime import datetime, timedelta
+import queue
+from django.db.models import Q
 
 from socios.forms import DisciplinaForm, SociosForm
 from socios.helpers import obtener_nombre_del_mes
@@ -44,8 +46,9 @@ def alta_socios(request):
                     return redirect('lista_socios')      
     else:
         form = SociosForm()
+        disciplinas = Disciplinas.objects.all()
 
-    return render(request, 'alta_socios.html', {'form': form})
+    return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas})
 
 def eliminar_socio(request , id_socio):
     socio = Socios.objects.get(id = id_socio)
@@ -255,7 +258,37 @@ def listado_facturas_socio(request, socio_id):
     return render(request, "lista_facturas_socio.html",{"socio":socio , "facturas":facturas})
 
 def listado_facturas(request):
-    facturas = Factura.objects.filter(pagado = True)
-    return render(request, "listado_facturas.html",{"facturas":facturas})
+    if request.method == 'POST':
+        fecha_inicio = request.POST.get('fecha_inicio')
+        fecha_fin = request.POST.get('fecha_fin')
+        
+        if fecha_inicio and fecha_fin:
+            facturas = Factura.objects.filter(
+                Q(fecha_pago__gte=fecha_inicio) &
+                Q(fecha_pago__lte=fecha_fin) &
+                Q(pagado=True)
+            )
+            return render(request, "listado_facturas.html", {"facturas": facturas})
+        else:
+            if fecha_inicio and not fecha_fin:
+                facturas = Factura.objects.filter(
+                    Q(fecha_pago__gte=fecha_inicio) &
+                    Q(pagado=True)
+                    )
+                return render(request, "listado_facturas.html", {"facturas": facturas})
+            else:
+                 if not fecha_inicio and fecha_fin:
+                    facturas = Factura.objects.filter(
+                        Q(fecha_pago__lte=fecha_fin) &
+                        Q(pagado=True)
+                            )
+                    return render(request, "listado_facturas.html", {"facturas": facturas})
+    
+    facturas= Factura.objects.filter(pagado=True)
+    return render(request, "listado_facturas.html", {"facturas": facturas})
     
     
+# MAIN PARA EL EJECUTABLE 
+    
+if __name__ == "__main__":
+    lista_socios()

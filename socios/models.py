@@ -18,6 +18,11 @@ class Disciplinas(models.Model):
             fecha_pago__lt=mes_anterior
         )
         return disciplinas_no_pagadas
+    
+    def obtener_vencimiento(self , socio ):
+        inscripcion = Inscripcion.objects.get(socio = socio ,disciplina = self.nombre)
+        return inscripcion.fecha_reinicio
+
 
 
 class Inscripcion(models.Model):

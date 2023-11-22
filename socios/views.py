@@ -71,12 +71,26 @@ def modificar_socio(request, id_socio):
             socio.apellido = request.POST['apellido']
             socio.tipo_socio = request.POST['tipo_socio']
             socio.save()
+            disciplinas_existentes = Inscripcion.objects.filter(socio=socio)
+            print("existentes" , disciplinas_existentes)
+            disciplinas_seleccionadas = form.cleaned_data['disciplinas']
+            print("seleccionadas" , disciplinas_seleccionadas)
+
+            for disciplina_seleccionada in disciplinas_seleccionadas:
+                disciplina_existente = disciplinas_existentes.filter(disciplina=disciplina_seleccionada).first()
+
+                if disciplina_existente is None:
+                    if datetime.now().day >= 28:
+                        fecha_reinicio = datetime.now() + timedelta(days=28)
+                    else:
+                        fecha_reinicio = datetime.now() + timedelta(days=30)
+
+                    Inscripcion.objects.create(socio=socio, disciplina=disciplina_seleccionada, fecha_reinicio=fecha_reinicio)
+
+
             form.save_m2m()
+            return redirect('lista_socios')      
 
-            # Actualizar las disciplinas asociadas al socio
-            socio.disciplinas.set(request.POST.getlist('disciplinas'))
-
-            return redirect('lista_socios')
     else:
         form = SociosForm(instance=socio)
         form.fields['dni'].widget.attrs['readonly'] = True

@@ -29,6 +29,7 @@
                 <th>Apellido</th>
                 <th>Tipo Socio</th>
                 <th>Disciplinas</th>
+                <th>Vencimiento</th>
                 <th>ACCIONES</th>
             </tr>
         </thead>
@@ -49,6 +50,9 @@
                         </td>
                         <td>
                             <p>{{disciplinas.disciplina.nombre}}</p>   
+                        </td>
+                        <td>
+                            <p>{{disciplinas.fecha_reinicio}}</p>   
                         </td>
                         <td>
                             <a href="{% url 'pagar' socio.pk disciplinas.disciplina.id %}">

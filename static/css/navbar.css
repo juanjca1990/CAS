@@ -1,4 +1,7 @@
 /* /////////////////// INICIO barra navegacion */
+body{
+  background-color: rgb(213, 230, 224);
+}
 
 nav {
     background-color: #333;

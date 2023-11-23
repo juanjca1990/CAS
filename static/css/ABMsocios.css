@@ -70,55 +70,44 @@ a{
     color: black;
 }
 
-.boton-form-enviar {
-    padding: 12.5px 30px;
-    border: 0;
-    border-radius: 100px;
-    background-color: #1ab31a;
-    color: #0a0101;
-    font-weight: Bold;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-  }
-  
-.boton-form-enviar:hover{
-    background-color: #26b801;
-    box-shadow: 0 0 20px #6fc5ff50;
-    transform: scale(1.1);
-  }
-  
-.boton-form-enviar:active{
-    background-color: #07ca21;
-    transition: all 0.25s;
-    -webkit-transition: all 0.25s;
-    box-shadow: none;
-    transform: scale(0.98);
+.form-enviar {
+  width: 150px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: rgb(27, 165, 14);
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
   }
 
+.form-volver{
+  width: 150px;
+  height: 50px;
+  cursor: pointer;
+  background: rgb(187, 52, 19);
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+  }
 
-.boton-form-volver{
-    padding: 12.5px 30px;
-    border: 0;
-    border-radius: 100px;
-    background-color: #2ba8fb;
-    color: #0a0101;
-    font-weight: Bold;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
+  .boton-form[type="submit"] {
+    /* Agrega tus estilos aquí */
+    justify-content: center;
+    color: #ffffff; /* Color del texto */
+    font-size: 16px; /* Tamaño de la fuente */
+    /* Otros estilos que desees aplicar */
   }
   
-.boton-form-volver:hover{
-    background-color: #6fc5ff;
-    box-shadow: 0 0 20px #6fc5ff50;
-    transform: scale(1.1);
-  }
-  
-.boton-form-volver:active{
-    background-color: #3d94cf;
-    transition: all 0.25s;
-    -webkit-transition: all 0.25s;
-    box-shadow: none;
-    transform: scale(0.98);
+  /* Estilo para el texto del botón "cancelar" */
+  .boton-form a {
+    /* Agrega tus estilos aquí */
+    font-size: 20px;
+    color: #ffffff; /* Color del texto */
+    text-decoration: none; /* Quita el subrayado del enlace */
+    text-align: center; /* Centra el texto dentro del botón */
+    /* Otros estilos que desees aplicar */
   }
 
 

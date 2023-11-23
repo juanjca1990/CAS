@@ -29,8 +29,10 @@
           <div class="formulario-input">{{ form.monto_adherente }}</div>
         </div>
         <div class="botones-form">
-          <button class="boton-form-enviar boton-form" type="submit" value="Enviar">Enviar</button>
-          <button class="boton-form-volver boton-form"><a href="{% url 'lista_disciplinas' %}">Volver</a></button>
+          <div class="botones-form">
+            <button class="form-enviar boton-form" type="submit" value="Enviar">Guardar</button>
+            <button class="form-volver boton-form" type="volver" ><a href="{% url 'lista_disciplinas' %}">cancelar</a></button>
+          </div>
         </div>
       </div>
     </form>

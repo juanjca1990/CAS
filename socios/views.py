@@ -34,6 +34,7 @@ def alta_socios(request):
                     nuevo_socio = form.save(commit=False)
                     disciplinas_seleccionadas = form.cleaned_data['disciplinas']
                     nuevo_socio.save()
+                    Socios.objects.filter(dni=nuevo_dni).update(fecha_ingreso = datetime.now().date(),)
                     for disciplina in disciplinas_seleccionadas.all():
                         if datetime.now().day >= 28:
                             fecha_reinicio = datetime.now() + timedelta(days=28)
@@ -146,14 +147,17 @@ def modificar_disciplina(request , id_disciplina):
 
     return render(request, "alta_disciplina.html", {"form": form})
 
-
+# preparo los elementos a mostrar en la vista de "PAGAR" de un socio
 def facturacion(request , id_socio):
     reiniciar_pagos_para_nuevo_mes()
     mes_actual = datetime.now().month
     nombre_mes = obtener_nombre_del_mes(mes_actual)
-    socio = Socios.objects.get(id = id_socio)
+    socio = Socios.objects.get(id = id_socio) 
+    # obtengo disciplinas pendieites a pagar
     disciplinas_inscripcion_pendientes = obtener_disciplinas_pendientes(id_socio)
+    # obtengo las disciplinas ya pagas del mes
     disciplinas_inscripcion_pagadas = obtener_disciplinas_pagadas(id_socio)
+    # obtengo las disciplinas q no fueron pagadas aun
     facturas_vencidas=Factura.objects.filter(socio = id_socio , pagado = False)
     return render(request, "facturacion.html" ,
                 {'socio':socio ,
@@ -163,6 +167,7 @@ def facturacion(request , id_socio):
                 "mes":nombre_mes,
                 })
 
+# se establece el pago entre una disciplina y el socio. tambien se crea una factura
 def pagar(request , socio_id , disciplina_id):
     socio = Socios.objects.get(id=socio_id)
     disciplina_a_pagar = Disciplinas.objects.get(id=disciplina_id)
@@ -184,7 +189,7 @@ def pagar(request , socio_id , disciplina_id):
     inscripcion.marcar_como_pagado()
     return redirect('facturacion', id_socio=socio_id)
 
-
+# se paga una factura que estaba vencida actualizando su campo de fecha y de pago
 def pagar_vencidos(request , factura_id):
     factura=Factura.objects.get(id=factura_id)
     socio = Socios.objects.get(id=factura.socio.pk)
@@ -198,6 +203,7 @@ def pagar_vencidos(request , factura_id):
 def reiniciar_pagos_para_nuevo_mes():
     dia_actual = datetime.now().day
     mes_actual = datetime.now().month
+    # obtengo todas las disciplinas
     inscripciones = Inscripcion.objects.all()
     if inscripciones.exists():
         #por cada inscripcion verifico el mes de reinicio con el mes actual
@@ -224,7 +230,10 @@ def reiniciar_pagos_para_nuevo_mes():
                         inscripcion.save()
                         # Inscripcion.objects.filter(pagado=True, fecha_reinicio__month=mes_actual).update(pagado=False, fecha_pago=None)
 
+
+# crea una nueva factura vencida perteneciente a un socio
 def marcar_facturas_vencidas(socio , disciplina, adherente,afiliado,reinicio):
+    # busca la persona por su id
     persona = Socios.objects.get(id = socio)
     if persona.tipo_socio == Socios.socio_afiliado:
         monto_pagado = afiliado

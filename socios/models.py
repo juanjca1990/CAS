@@ -36,17 +36,18 @@ class Inscripcion(models.Model):
     def __str__(self):
         return f"{self.socio.nombre} - {self.disciplina.nombre} - Pagado: {self.pagado}"
 
+    # se marca la disciplina a pagar y se reinicia su fecha de vencimiento 1 mes mas
     def marcar_como_pagado(self):
         self.pagado = True
         self.fecha_pago = datetime.now().date()   
     # Obtener el primer día del próximo mes
         primer_dia_siguiente_mes = datetime(self.fecha_pago.year, self.fecha_pago.month, 1) + timedelta(days=31 ) 
     # Establecer el día en 5
-        dia = self.fecha_reinicio.day
-        if dia >=28:
-            self.fecha_reinicio = datetime(primer_dia_siguiente_mes.year, primer_dia_siguiente_mes.month, 28).date()
-        else:
-            self.fecha_reinicio = datetime(primer_dia_siguiente_mes.year, primer_dia_siguiente_mes.month, dia).date() + timedelta(days=30 )
+        # dia = self.fecha_reinicio.day
+        # if dia >=28:
+        #     self.fecha_reinicio = datetime(primer_dia_siguiente_mes.year, primer_dia_siguiente_mes.month, 28).date()
+        # else:
+        #     self.fecha_reinicio = datetime(primer_dia_siguiente_mes.year, primer_dia_siguiente_mes.month, dia).date() + timedelta(days=30 )
             
         self.save()
 
@@ -65,6 +66,7 @@ class Socios(models.Model):
     nombre = models.CharField(max_length=200, blank=True)
     tipo_socio = models.PositiveSmallIntegerField(choices=tipo)
     disciplinas = models.ManyToManyField(Disciplinas, through='Inscripcion')
+    fecha_ingreso = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombre} {self.apellido}"

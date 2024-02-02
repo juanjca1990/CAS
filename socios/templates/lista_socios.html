@@ -38,6 +38,7 @@
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Tipo Socio</th>
+                        <th>Fecha ingreso</th>
                         <th>Disciplinas</th>
                         <th>ACCIONES</th>
                     </tr>
@@ -56,6 +57,7 @@
                                 {{ 'adherente' }}
                             {% endif %}
                         </td>
+                        <td>{{socio.fecha_ingreso}}</td>
                         <td> {% for socioDis in socio.disciplinas.all %}  
                             <p>{{socioDis.nombre}}</p>     
                             {% endfor %}

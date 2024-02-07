@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 class Disciplinas(models.Model):
-    nombre = models.CharField(max_length=100, unique=True, blank=True)
+    nombre = models.CharField(max_length=100)
     monto_afiliado = models.IntegerField()
     monto_adherente = models.IntegerField()
 
@@ -60,8 +60,8 @@ class Socios(models.Model):
         (socio_adherente, "Adherente")
     ]
 
-    nroSocio = models.IntegerField(unique=True)
-    dni = models.IntegerField(unique=True)
+    nroSocio = models.IntegerField()
+    dni = models.IntegerField()
     apellido = models.CharField(max_length=200, blank=True)
     nombre = models.CharField(max_length=200, blank=True)
     tipo_socio = models.PositiveSmallIntegerField(choices=tipo)

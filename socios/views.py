@@ -18,18 +18,20 @@ def alta_socios(request):
     if request.method == 'POST':
         form = SociosForm(request.POST)
         if form.is_valid():
+            # obtengo todas las disciplinas creadas hasta el momento
+            disciplinas_total = Disciplinas.objects.all()
             print("entreee")
             nuevo_dni = form.cleaned_data['dni']
             nuevo_nro_socio = form.cleaned_data['nroSocio']
             if (Socios.objects.filter(dni = nuevo_dni).exists()):
                 print("numero dni")
                 form.add_error('dni', 'el dni ya se encuentra registrado')
-                return render(request, 'alta_socios.html', {'form': form})
+                return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
             else:
                 if (Socios.objects.filter(nroSocio = nuevo_nro_socio).exists()):
                     print("numero socio")
                     form.add_error('nroSocio', 'el numero de socio ya se encuentra registrado')
-                    return render(request, 'alta_socios.html', {'form': form})
+                    return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
                 else:
                     nuevo_socio = form.save(commit=False)
                     disciplinas_seleccionadas = form.cleaned_data['disciplinas']
@@ -114,11 +116,14 @@ def alta_disciplina(request):
     if request.method == "POST":
         form = DisciplinaForm(request.POST)
         if form.is_valid():
+            nuevo_nombre = form.cleaned_data['nombre']
+            if (Disciplinas.objects.filter(nombre = nuevo_nombre).exists()):
+                form.add_error('nombre', 'el nombre de esta disciplina ya se encuentra registrado')
+                return render(request, 'alta_disciplina.html', {'form': form})
             form.save()
             return redirect('lista_disciplinas')
     else:
         form = DisciplinaForm()
-
     return render(request, "alta_disciplina.html", {"form": form})
 
 

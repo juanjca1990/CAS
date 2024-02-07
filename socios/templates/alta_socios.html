@@ -26,12 +26,12 @@
               <label for="{{ form.apellido.id_for_label }}" class="formulario-label">Apellido:</label>
               <div class="formulario-input">{{ form.apellido }}</div>
             </div>
-            {% for error in form.dni.errors %}
-            <span class="error-message">{{ error }}</span>
-          {% endfor %}
             <div class="form-group">
               <label for="{{ form.dni.id_for_label }}" class="formulario-label">Dni:</label>
               <div class="formulario-input">{{ form.dni }}</div>
+              {% if form.dni.errors %}
+                  <div class="error-message">{{ form.dni.errors.0 }}</div>
+              {% endif %}
             </div>
             {% for error in form.nroSocio.errors %}
               <span class="error-message">{{ error }}</span>

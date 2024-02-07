@@ -19,14 +19,25 @@
         <div class="form-group">
           <label for="{{ form.nombre.id_for_label }}" class="formulario-label">Nombre:</label>
           <div class="formulario-input">{{ form.nombre }}</div>
+          {% if form.nombre.errors %}
+              <div class="error-message">{{ form.nombre.errors.0 }}</div>
+          {% endif %}
         </div>
+        
         <div class="form-group">
-          <label for="{{ form.monto_afiliado.id_for_label }}" class="formulario-label">Monto Afiliado:</label>
-          <div class="formulario-input">{{ form.monto_afiliado }}</div>
+            <label for="{{ form.monto_afiliado.id_for_label }}" class="formulario-label">Monto Afiliado:</label>
+            <div class="formulario-input">{{ form.monto_afiliado }}</div>
+            {% if form.monto_afiliado.errors %}
+                <div class="error-message">{{ form.monto_afiliado.errors.0 }}</div>
+            {% endif %}
         </div>
+        
         <div class="form-group">
-          <label for="{{ form.monto_adherente.id_for_label }}" class="formulario-label">Monto Adherente:</label>
-          <div class="formulario-input">{{ form.monto_adherente }}</div>
+            <label for="{{ form.monto_adherente.id_for_label }}" class="formulario-label">Monto Adherente:</label>
+            <div class="formulario-input">{{ form.monto_adherente }}</div>
+            {% if form.monto_adherente.errors %}
+                <div class="error-message">{{ form.monto_adherente.errors.0 }}</div>
+            {% endif %}
         </div>
         <div class="botones-form">
           <div class="botones-form">

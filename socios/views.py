@@ -27,31 +27,39 @@ def alta_socios(request):
                 print("numero dni")
                 form.add_error('dni', 'el dni ya se encuentra registrado')
                 return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
-            else:
-                if (Socios.objects.filter(nroSocio = nuevo_nro_socio).exists()):
-                    print("numero socio")
-                    form.add_error('nroSocio', 'el numero de socio ya se encuentra registrado')
-                    return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
-                else:
-                    nuevo_socio = form.save(commit=False)
-                    disciplinas_seleccionadas = form.cleaned_data['disciplinas']
-                    nuevo_socio.save()
-                    Socios.objects.filter(dni=nuevo_dni).update(fecha_ingreso = datetime.now().date(),)
-                    for disciplina in disciplinas_seleccionadas.all():
-                        if datetime.now().day >= 28:
-                            fecha_reinicio = datetime.now() + timedelta(days=28)
-                        else:    
-                            fecha_reinicio = datetime.now() + timedelta(days=30)
-                        
-                        Inscripcion.objects.create(socio=nuevo_socio, disciplina=disciplina, fecha_reinicio=fecha_reinicio)
-                    
-                    form.save_m2m()
-                    return redirect('lista_socios')      
+       
+            if (Socios.objects.filter(nroSocio = nuevo_nro_socio).exists()):
+                print("numero socio")
+                form.add_error('nroSocio', 'el numero de socio ya se encuentra registrado')
+                return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
+            
+            nombre = form.cleaned_data['nombre']
+            if any(char.isdigit() for char in nombre):
+                form.add_error('nombre', 'el nombre no debe contener numeros')
+                return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
+            apellido = form.cleaned_data['apellido']
+            if any(char.isdigit() for char in nombre):
+                form.add_error('apellido', 'el apellido no debe contener numeros')
+                return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
+            nuevo_socio = form.save(commit=False)
+            disciplinas_seleccionadas = form.cleaned_data['disciplinas']
+            nuevo_socio.save()
+            Socios.objects.filter(dni=nuevo_dni).update(fecha_ingreso = datetime.now().date(),)
+            for disciplina in disciplinas_seleccionadas.all():
+                if datetime.now().day >= 28:
+                    fecha_reinicio = datetime.now() + timedelta(days=28)
+                else:    
+                    fecha_reinicio = datetime.now() + timedelta(days=30)
+                
+                Inscripcion.objects.create(socio=nuevo_socio, disciplina=disciplina, fecha_reinicio=fecha_reinicio)
+            
+            form.save_m2m()
+            return redirect('lista_socios')      
     else:
         form = SociosForm()
-        disciplinas = Disciplinas.objects.all()
-
-    return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas})
+        
+    disciplinas_total = Disciplinas.objects.all()
+    return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
 
 def eliminar_socio(request , id_socio):
     socio = Socios.objects.get(id = id_socio)

@@ -22,28 +22,29 @@ def alta_socios(request):
             disciplinas_total = Disciplinas.objects.all()
             print("entreee")
             nuevo_dni = form.cleaned_data['dni']
-            nuevo_nro_socio = form.cleaned_data['nroSocio']
+            # nuevo_nro_socio = form.cleaned_data['nroSocio']
             if (Socios.objects.filter(dni = nuevo_dni).exists()):
                 print("numero dni")
                 form.add_error('dni', 'el dni ya se encuentra registrado')
                 return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
        
-            if (Socios.objects.filter(nroSocio = nuevo_nro_socio).exists()):
-                print("numero socio")
-                form.add_error('nroSocio', 'el numero de socio ya se encuentra registrado')
-                return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
+            # if (Socios.objects.filter(nroSocio = nuevo_nro_socio).exists()):
+            #     print("numero socio")
+            #     form.add_error('nroSocio', 'el numero de socio ya se encuentra registrado')
+            #     return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
             
             nombre = form.cleaned_data['nombre']
             if any(char.isdigit() for char in nombre):
                 form.add_error('nombre', 'el nombre no debe contener numeros')
                 return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
             apellido = form.cleaned_data['apellido']
-            if any(char.isdigit() for char in nombre):
+            if any(char.isdigit() for char in apellido):
                 form.add_error('apellido', 'el apellido no debe contener numeros')
                 return render(request, 'alta_socios.html', {'form': form , 'disciplinas':disciplinas_total})
             nuevo_socio = form.save(commit=False)
-            disciplinas_seleccionadas = form.cleaned_data['disciplinas']
+            nuevo_socio.nroSocio = 0
             nuevo_socio.save()
+            disciplinas_seleccionadas = form.cleaned_data['disciplinas']
             Socios.objects.filter(dni=nuevo_dni).update(fecha_ingreso = datetime.now().date(),)
             for disciplina in disciplinas_seleccionadas.all():
                 if datetime.now().day >= 28:
@@ -52,6 +53,9 @@ def alta_socios(request):
                     fecha_reinicio = datetime.now() + timedelta(days=30)
                 
                 Inscripcion.objects.create(socio=nuevo_socio, disciplina=disciplina, fecha_reinicio=fecha_reinicio)
+                modificarSocio = Socios.objects.get(dni = nuevo_socio.dni)
+                modificarSocio.nroSocio = modificarSocio.id
+                modificarSocio.save()
             
             form.save_m2m()
             return redirect('lista_socios')      
@@ -77,7 +81,6 @@ def modificar_socio(request, id_socio):
         if form.is_valid():
             socio = form.save(commit=False)
             socio.dni = request.POST['dni']
-            socio.nroSocio = request.POST['nroSocio']
             socio.nombre = request.POST['nombre']
             socio.apellido = request.POST['apellido']
             socio.tipo_socio = request.POST['tipo_socio']
@@ -105,7 +108,6 @@ def modificar_socio(request, id_socio):
     else:
         form = SociosForm(instance=socio)
         form.fields['dni'].widget.attrs['readonly'] = True
-        form.fields['nroSocio'].widget.attrs['readonly'] = True
         form.fields['nombre'].widget.attrs['readonly'] = True
         form.fields['apellido'].widget.attrs['readonly'] = True
         form.fields['disciplinas'].label = ''
